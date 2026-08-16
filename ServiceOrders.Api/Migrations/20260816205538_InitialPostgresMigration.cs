@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ServiceOrder.Api.Migrations
+namespace ServiceOrders.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class Create_Database : Migration
+    public partial class InitialPostgresMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,12 +15,12 @@ namespace ServiceOrder.Api.Migrations
                 name: "Articles",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PublishedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: false),
+                    CreatedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    PublishedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Tags = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
