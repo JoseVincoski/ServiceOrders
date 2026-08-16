@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  serviceorders-api:
+    image: ${DOCKER_REGISTRY-}serviceorders-api
+    container_name: ServiceOrders.Api
+    build:
+      context: .
+      dockerfile: ServiceOrders.Api/Dockerfile
+    ports:
+      - "5001:443"
+
+  serviceorders-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: ServiceOrders.Db
+    volumes:
+        - ./.containers/database:/var/opt/mssql/data
+    ports:
+        - "1433:1433"
+    environment:
+        ACCEPT_EULA: "Y"
+        SA_PASSWORD: "Strong_password_123!"
