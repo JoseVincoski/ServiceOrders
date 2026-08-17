@@ -4,11 +4,10 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using ServiceOrder.Api.Database;
 using Testcontainers.PostgreSql;
 
-namespace ServiceOrders.IntegrationTests.Infrastructure;
+namespace ServiceOrders.IntegrationTests.Setup;
 
 public class CustomWebApplicationFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
 {

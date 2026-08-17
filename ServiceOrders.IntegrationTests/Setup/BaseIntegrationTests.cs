@@ -3,10 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using Respawn;
 using ServiceOrder.Api.Database;
-using ServiceOrders.IntegrationTests.Infrastructure;
 using System.Data.Common;
 
-namespace ServiceOrders.IntegrationTests.Infraestructure;
+namespace ServiceOrders.IntegrationTests.Setup;
 
 public abstract class BaseIntegrationTest : IClassFixture<CustomWebApplicationFactory>, IAsyncLifetime
 {
