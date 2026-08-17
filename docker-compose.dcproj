@@ -4,7 +4,7 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>56f62bc3-7646-4559-92eb-499120179413</ProjectGuid>
-    <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
+	<DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>serviceorders-api</DockerServiceName>
   </PropertyGroup>

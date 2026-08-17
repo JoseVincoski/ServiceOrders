@@ -2,15 +2,6 @@ name: serviceorders
 version: '3.8'
 
 services:
-  serviceorders-api:
-    image: ${DOCKER_REGISTRY-}serviceorders-api
-    container_name: ServiceOrders.Api
-    build:
-      context: .
-      dockerfile: ServiceOrders.Api/Dockerfile
-    ports:
-      - "5001:443"
-
   serviceorders-db:
     image: postgres:17-alpine
     container_name: ServiceOrders.Db
@@ -19,6 +10,35 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: serviceorder-db
+      POSTGRES_DB: serviceorders_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Strong_password_123!
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  seq:
+    image: datalust/seq:latest
+    container_name: ServiceOrders.Seq
+    ports:
+      - "5341:5341"
+      - "8081:80"
+    environment:
+      ACCEPT_EULA: "Y"
+      SEQ_FIRSTRUN_NOAUTHENTICATION: "true" ##Exposing seq with no passwords is not ideal. Doing this for simplicity on checking logs on this test only.
+
+  serviceorders-api:
+    image: ${DOCKER_REGISTRY-}serviceorders-api
+    container_name: ServiceOrders.Api
+    build:
+      context: .
+      dockerfile: ServiceOrders.Api/Dockerfile
+    ports:
+      - "5001:443"
+    depends_on:
+      serviceorders-db:
+        condition: service_healthy
+      seq:
+        condition: service_started

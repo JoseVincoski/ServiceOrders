@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ServiceOrders.IntegrationTests": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
