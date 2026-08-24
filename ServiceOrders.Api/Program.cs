@@ -1,9 +1,10 @@
-using Microsoft.EntityFrameworkCore;
-using ServiceOrder.Api.Database;
-using ServiceOrder.Api.Extensions;
-using Serilog;
 using Carter;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Serilog;
+using ServiceOrder.Api.Database;
+using ServiceOrder.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +12,11 @@ Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .CreateLogger();
 builder.Host.UseSerilog();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddEndpointsApiExplorer(); 
+builder.Services.AddSwaggerGen(options =>
+{
+    options.CustomSchemaIds(type => type.FullName?.Replace('+', '.'));
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(o =>
     o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));

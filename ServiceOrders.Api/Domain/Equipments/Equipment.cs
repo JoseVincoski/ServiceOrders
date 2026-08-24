@@ -1,0 +1,69 @@
+﻿using ServiceOrders.Api.Domain.Sectors;
+using ServiceOrders.Api.Shared.Results;
+
+namespace ServiceOrders.Api.Domain.Equipments;
+
+public sealed class Equipment
+{
+    private Equipment() { }
+
+    private Equipment(Guid id, string name, string description, Guid sectorId)
+    {
+        Id = id;
+        Name = name;
+        Description = description;
+        SectorId = sectorId;
+    }
+
+    public Guid Id { get; private set; }
+    public string Name { get; private set; } = string.Empty;
+    public string Description { get; private set; } = string.Empty;
+    public Guid SectorId { get; private set; }
+    public Sector Sector { get; private set; } = null!;
+
+    public static Result<Equipment> Create(string name, string description, Guid sectorId)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return Result.Failure<Equipment>(Error.Problem(
+                "Equipment.InvalidName",
+                "The equipment name cannot be empty."));
+        }
+
+        if (sectorId == Guid.Empty)
+        {
+            return Result.Failure<Equipment>(Error.Problem(
+                "Equipment.EmptySectorId",
+                "The sector ID cannot be empty."));
+        }
+
+        return new Equipment(
+            Guid.NewGuid(),
+            name.Trim(),
+            description.Trim(),
+            sectorId);
+    }
+
+    public Result UpdateDetails(string newName, string newDescription, Guid newSectorId)
+    {
+        if (string.IsNullOrWhiteSpace(newName))
+        {
+            return Result.Failure(Error.Problem(
+                "Equipment.InvalidName",
+                "The equipment name cannot be empty."));
+        }
+
+        if (newSectorId == Guid.Empty)
+        {
+            return Result.Failure(Error.Problem(
+                "Equipment.EmptySectorId",
+                "The sector ID cannot be empty."));
+        }
+
+        Name = newName.Trim();
+        Description = newDescription.Trim();
+        SectorId = newSectorId;
+
+        return Result.Success();
+    }
+}

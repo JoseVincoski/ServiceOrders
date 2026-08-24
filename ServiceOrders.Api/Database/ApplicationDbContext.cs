@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ServiceOrder.Api.Entities;
+using ServiceOrders.Api.Domain.Equipments;
+using ServiceOrders.Api.Domain.Sectors;
 
 namespace ServiceOrder.Api.Database;
 
@@ -12,9 +13,10 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Article>(builder =>
-            builder.OwnsOne(a => a.Tags, tagsBuilder => tagsBuilder.ToJson()));
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        base.OnModelCreating(modelBuilder);
     }
 
-    public DbSet<Article> Articles { get; set; }
+    public DbSet<Equipment> Equipments { get; set; }
+    public DbSet<Sector> Sectors { get; set; }
 }

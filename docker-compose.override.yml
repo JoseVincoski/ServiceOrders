@@ -5,6 +5,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ConnectionStrings__DefaultConnection=Host=serviceorders-db;Port=5432;Database=serviceorders_db;Username=postgres;Password=Strong_password_123!
     ports:
       - "80"
       - "5001:443"

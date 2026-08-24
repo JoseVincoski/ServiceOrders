@@ -23,9 +23,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.7.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
   <Target Name="CopyDepsJsonFiles" AfterTargets="Build;Publish">
     <ItemGroup>
 	  <DepsJsonFiles Include="$(TargetDir)*.deps.json" />
