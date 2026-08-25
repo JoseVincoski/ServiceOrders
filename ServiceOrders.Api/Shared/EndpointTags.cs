@@ -1,4 +1,4 @@
-﻿namespace ServiceOrder.Api.Shared;
+﻿namespace ServiceOrders.Api.Shared;
 
 public class EndpointTags
 {

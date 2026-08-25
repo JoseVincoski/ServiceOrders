@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using ServiceOrder.Api.Database;
+using ServiceOrders.Api.Database;
 using Testcontainers.PostgreSql;
 
 namespace ServiceOrders.IntegrationTests.Setup;

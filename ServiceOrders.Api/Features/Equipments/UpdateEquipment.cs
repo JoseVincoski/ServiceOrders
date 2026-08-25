@@ -3,37 +3,37 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServiceOrders.Api.Database;
-using ServiceOrders.Api.Extensions;
-using ServiceOrders.Api.Shared;
 using ServiceOrders.Api.Domain.Equipments;
+using ServiceOrders.Api.Extensions;
 using ServiceOrders.Api.Shared.Results;
 
 namespace ServiceOrders.Api.Features.Equipments;
 
-public class CreateEquipmentEndpoint : ICarterModule
+public class UpdateEquipmentEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("api/equipments", async (
-            [FromBody] CreateEquipment.Request request,
+        app.MapPut("api/equipments/{id:guid}", async (
+            [FromRoute] Guid id,
+            [FromBody] UpdateEquipment.Request request,
             ApplicationDbContext dbContext,
             CancellationToken cancellationToken) =>
         {
-            Result<CreateEquipment.Response> result = await CreateEquipment.HandleAsync(request, dbContext, cancellationToken);
+            Result<UpdateEquipment.Response> result = await UpdateEquipment.HandleAsync(id, request, dbContext, cancellationToken);
 
             return result.Match(
-                onSuccess: response => Results.Created($"api/equipments/{response.Id}", response),
+                onSuccess: response => Results.Ok(response),
                 onFailure: error => Results.BadRequest(error)
             );
         })
-        .WithName("CreateEquipment")
-        .WithTags(EndpointTags.Equipment)
-        .WithValidation<CreateEquipment.Request>()
+        .WithName("UpdateEquipment")
+        .WithTags("Equipment")
+        .WithValidation<UpdateEquipment.Request>()
         .WithOpenApi();
     }
 }
 
-public static class CreateEquipment
+public static class UpdateEquipment
 {
     public sealed record Request(string Name, string Description, Guid SectorId);
     public sealed record Response(Guid Id, string Name, string Description, Guid SectorId);
@@ -48,29 +48,36 @@ public static class CreateEquipment
     }
 
     public static async Task<Result<Response>> HandleAsync(
+        Guid id,
         Request request,
         ApplicationDbContext dbContext,
         CancellationToken cancellationToken)
     {
-        bool sectorExists = await dbContext.Sectors.AnyAsync(s => s.Id == request.SectorId, cancellationToken);
-        if (!sectorExists)
+        Equipment? equipment = await dbContext.Equipments.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+        if (equipment is null)
         {
             return Result.Failure<Response>(Error.NotFound(
-                "Sector.NotFound",
-                $"Sector with ID {request.SectorId} was not found."));
+                "Equipment.NotFound",
+                $"Equipment with ID {id} was not found."));
         }
 
-        Result<Equipment> equipmentResult = Equipment.Create(
-            request.Name,
-            request.Description,
-            request.SectorId);
-        if (equipmentResult.IsFailure)
+        if (equipment.SectorId != request.SectorId)
         {
-            return Result.Failure<Response>(equipmentResult.Error);
+            bool sectorExists = await dbContext.Sectors.AnyAsync(s => s.Id == request.SectorId, cancellationToken);
+            if (!sectorExists)
+            {
+                return Result.Failure<Response>(Error.NotFound(
+                    "Sector.NotFound",
+                    $"Sector with ID {request.SectorId} was not found."));
+            }
         }
 
-        Equipment equipment = equipmentResult.Value;
-        dbContext.Equipments.Add(equipment);
+        Result updateResult = equipment.UpdateDetails(request.Name, request.Description, request.SectorId);
+        if (updateResult.IsFailure)
+        {
+            return Result.Failure<Response>(updateResult.Error);
+        }
+
         await dbContext.SaveChangesAsync(cancellationToken);
 
         var response = new Response(
@@ -78,6 +85,7 @@ public static class CreateEquipment
             equipment.Name,
             equipment.Description,
             equipment.SectorId);
+
         return Result.Success(response);
     }
 }

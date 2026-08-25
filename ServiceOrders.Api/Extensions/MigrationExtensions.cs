@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ServiceOrder.Api.Database;
+using ServiceOrders.Api.Database;
 
 namespace ServiceOrder.Api.Extensions;
 

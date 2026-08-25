@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using Respawn;
-using ServiceOrder.Api.Database;
+using ServiceOrders.Api.Database;
 using System.Data.Common;
 
 namespace ServiceOrders.IntegrationTests.Setup;

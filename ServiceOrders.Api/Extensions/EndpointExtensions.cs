@@ -1,7 +1,7 @@
 ﻿using Carter;
 using ServiceOrders.Api.Shared.Validations;
 
-namespace ServiceOrder.Api.Extensions;
+namespace ServiceOrders.Api.Extensions;
 
 public static class EndpointExtensions
 {

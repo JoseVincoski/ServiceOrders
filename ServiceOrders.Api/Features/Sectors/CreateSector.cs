@@ -2,10 +2,10 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ServiceOrder.Api.Database;
-using ServiceOrder.Api.Extensions;
-using ServiceOrder.Api.Shared;
+using ServiceOrders.Api.Database;
 using ServiceOrders.Api.Domain.Sectors;
+using ServiceOrders.Api.Extensions;
+using ServiceOrders.Api.Shared;
 using ServiceOrders.Api.Shared.Results;
 
 namespace ServiceOrders.Api.Features.Sectors;
@@ -38,9 +38,9 @@ public static class CreateSector
     public sealed record Request(string Name);
     public sealed record Response(Guid Id, string Name);
 
-    public class CreateSectorValidator : AbstractValidator<Request>
+    public class Validator : AbstractValidator<Request>
     {
-        public CreateSectorValidator()
+        public Validator()
         {
             RuleFor(c => c.Name).NotEmpty().MaximumLength(100);
         }

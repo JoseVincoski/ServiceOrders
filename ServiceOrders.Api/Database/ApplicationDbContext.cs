@@ -2,7 +2,7 @@
 using ServiceOrders.Api.Domain.Equipments;
 using ServiceOrders.Api.Domain.Sectors;
 
-namespace ServiceOrder.Api.Database;
+namespace ServiceOrders.Api.Database;
 
 public class ApplicationDbContext : DbContext
 {
