@@ -19,11 +19,10 @@ public sealed class Sector
 
     public static Result<Sector> Create(string name)
     {
-        if (string.IsNullOrWhiteSpace(name))
+        var validation = ValidateState(name);
+        if (validation.IsFailure)
         {
-            return Result.Failure<Sector>(Error.Problem(
-                "Sector.InvalidName",
-                "The sector name cannot be empty."));
+            return Result.Failure<Sector>(validation.Error);
         }
 
         return new Sector(Guid.NewGuid(), name.Trim());
@@ -31,14 +30,23 @@ public sealed class Sector
 
     public Result UpdateName(string newName)
     {
-        if (string.IsNullOrWhiteSpace(newName))
+        var validation = ValidateState(newName);
+        if (validation.IsFailure)
         {
-            return Result.Failure(Error.Problem(
-                "Sector.InvalidName",
-                "The sector name cannot be empty."));
+            return Result.Failure<Sector>(validation.Error);
         }
 
         Name = newName.Trim();
+        return Result.Success();
+    }
+
+    private static Result ValidateState(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return Result.Failure<Sector>(Error.Problem("Sector.InvalidName", "The sector name cannot be empty."));
+        }
+
         return Result.Success();
     }
 }

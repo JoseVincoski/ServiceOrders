@@ -26,18 +26,10 @@ public sealed class Equipment
 
     public static Result<Equipment> Create(string name, string description, Guid sectorId)
     {
-        if (string.IsNullOrWhiteSpace(name))
+        var validation = ValidateState(name, sectorId);
+        if (validation.IsFailure)
         {
-            return Result.Failure<Equipment>(Error.Problem(
-                "Equipment.InvalidName",
-                "The equipment name cannot be empty."));
-        }
-
-        if (sectorId == Guid.Empty)
-        {
-            return Result.Failure<Equipment>(Error.Problem(
-                "Equipment.EmptySectorId",
-                "The sector ID cannot be empty."));
+            return Result.Failure<Equipment>(validation.Error);
         }
 
         return new Equipment(
@@ -49,23 +41,30 @@ public sealed class Equipment
 
     public Result UpdateDetails(string newName, string newDescription, Guid newSectorId)
     {
-        if (string.IsNullOrWhiteSpace(newName))
+        var validation = ValidateState(newName, newSectorId);
+        if (validation.IsFailure)
         {
-            return Result.Failure(Error.Problem(
-                "Equipment.InvalidName",
-                "The equipment name cannot be empty."));
-        }
-
-        if (newSectorId == Guid.Empty)
-        {
-            return Result.Failure(Error.Problem(
-                "Equipment.EmptySectorId",
-                "The sector ID cannot be empty."));
+            return Result.Failure<Equipment>(validation.Error);
         }
 
         Name = newName.Trim();
         Description = newDescription.Trim();
         SectorId = newSectorId;
+
+        return Result.Success();
+    }
+
+    private static Result ValidateState(string name, Guid sectorId)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return Result.Failure<Equipment>(Error.Problem("Equipment.InvalidName", "The equipment name cannot be empty."));
+        }
+
+        if (sectorId == Guid.Empty)
+        {
+            return Result.Failure<Equipment>(Error.Problem("Equipment.EmptySectorId", "The sector ID cannot be empty."));
+        }
 
         return Result.Success();
     }

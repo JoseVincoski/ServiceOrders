@@ -1,4 +1,8 @@
-﻿using ServiceOrders.Api.Shared.Results;
+﻿using Microsoft.AspNetCore.Identity;
+using ServiceOrders.Api.Domain.Equipments;
+using ServiceOrders.Api.Domain.ServiceOrders;
+using ServiceOrders.Api.Shared.Results;
+using System.Xml.Linq;
 
 namespace ServiceOrders.Api.Domain.Users;
 
@@ -28,19 +32,10 @@ public sealed class User
 
     public static Result<User> Create(string name, string email, string passwordHash, UserRole role)
     {
-        if (string.IsNullOrWhiteSpace(name))
+        var validation = ValidateState(name, email);
+        if (validation.IsFailure)
         {
-            return Result.Failure<User>(Error.Problem("User.EmptyName", "Name cannot be empty."));
-        }
-
-        if (string.IsNullOrWhiteSpace(email) || !email.Contains('@'))
-        {
-            return Result.Failure<User>(Error.Problem("User.InvalidEmail", "A valid email is required."));
-        }
-
-        if (string.IsNullOrWhiteSpace(passwordHash) || passwordHash.Length < MinPasswordLength)
-        {
-            return Result.Failure<User>(Error.Problem("User.InvalidPassword", $"Password must be at least {MinPasswordLength} characters long."));
+            return Result.Failure<User>(validation.Error);
         }
 
         return new User(Guid.NewGuid(), name.Trim(), email.Trim().ToLowerInvariant(), passwordHash, role);
@@ -54,6 +49,21 @@ public sealed class User
         }
 
         Role = newRole;
+        return Result.Success();
+    }
+
+    private static Result ValidateState(string name, string email)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return Result.Failure<User>(Error.Problem("User.EmptyName", "Name cannot be empty."));
+        }
+
+        if (string.IsNullOrWhiteSpace(email) || !email.Contains('@'))
+        {
+            return Result.Failure<User>(Error.Problem("User.InvalidEmail", "A valid email is required."));
+        }
+
         return Result.Success();
     }
 }

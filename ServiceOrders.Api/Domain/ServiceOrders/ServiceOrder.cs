@@ -1,4 +1,5 @@
-﻿using ServiceOrders.Api.Domain.ServiceOrders.ServiceOrderItems;
+﻿using ServiceOrders.Api.Domain.Sectors;
+using ServiceOrders.Api.Domain.ServiceOrders.ServiceOrderItems;
 using ServiceOrders.Api.Shared.Results;
 
 namespace ServiceOrders.Api.Domain.ServiceOrders;
@@ -39,19 +40,10 @@ public sealed class ServiceOrder
 
     public static Result<ServiceOrder> Create(Guid equipmentId, Guid requestorUserId, string failureDescription)
     {
-        if (equipmentId == Guid.Empty)
+        var validation = ValidateState(equipmentId, requestorUserId, failureDescription);
+        if (validation.IsFailure)
         {
-            return Result.Failure<ServiceOrder>(Error.Problem("ServiceOrder.EmptyEquipment", "Equipment is required."));
-        }
-
-        if (requestorUserId == Guid.Empty)
-        {
-            return Result.Failure<ServiceOrder>(Error.Problem("ServiceOrder.EmptyRequestor", "Requestor user is required."));
-        }
-
-        if (string.IsNullOrWhiteSpace(failureDescription))
-        {
-            return Result.Failure<ServiceOrder>(Error.Problem("ServiceOrder.EmptyDescription", "Failure description cannot be empty."));
+            return Result.Failure<ServiceOrder>(validation.Error);
         }
 
         return new ServiceOrder(Guid.NewGuid(), equipmentId, requestorUserId, failureDescription.Trim());
@@ -110,6 +102,26 @@ public sealed class ServiceOrder
         WorkerFixDescription = fixDescription.Trim();
         Status = ServiceOrderStatus.Completed;
         ClosureTime = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    private static Result ValidateState(Guid equipmentId, Guid requestorUserId, string failureDescription)
+    {
+        if (equipmentId == Guid.Empty)
+        {
+            return Result.Failure<ServiceOrder>(Error.Problem("ServiceOrder.EmptyEquipment", "Equipment is required."));
+        }
+
+        if (requestorUserId == Guid.Empty)
+        {
+            return Result.Failure<ServiceOrder>(Error.Problem("ServiceOrder.EmptyRequestor", "Requestor user is required."));
+        }
+
+        if (string.IsNullOrWhiteSpace(failureDescription))
+        {
+            return Result.Failure<ServiceOrder>(Error.Problem("ServiceOrder.EmptyDescription", "Failure description cannot be empty."));
+        }
 
         return Result.Success();
     }

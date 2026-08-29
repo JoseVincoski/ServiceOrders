@@ -5,4 +5,5 @@ public class EndpointTags
     public const string Equipment = "Equipment";
     public const string Sector = "Sector";
     public const string User = "User";
+    public const string Item = "Item";
 }
