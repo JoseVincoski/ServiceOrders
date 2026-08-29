@@ -1,5 +1,4 @@
 ﻿using Carter;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServiceOrders.Api.Database;

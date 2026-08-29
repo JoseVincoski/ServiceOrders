@@ -8,8 +8,8 @@ internal sealed class EquipmentConfiguration : IEntityTypeConfiguration<Equipmen
     public void Configure(EntityTypeBuilder<Equipment> builder)
     {
         builder.HasKey(e => e.Id);
-        builder.Property(e => e.Name).HasMaxLength(150).IsRequired();
-        builder.Property(e => e.Description).HasMaxLength(500).IsRequired();
+        builder.Property(e => e.Name).HasMaxLength(Equipment.MaxNameLength).IsRequired();
+        builder.Property(e => e.Description).HasMaxLength(Equipment.MaxDescriptionLength).IsRequired();
 
         builder.HasOne(e => e.Sector)
             .WithMany()

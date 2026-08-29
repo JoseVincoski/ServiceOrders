@@ -41,7 +41,7 @@ public static class UpdateSector
     {
         public Validator()
         {
-            RuleFor(c => c.Name).NotEmpty().MaximumLength(150);
+            RuleFor(c => c.Name).NotEmpty().MaximumLength(Sector.MaxNameLength);
         }
     }
 

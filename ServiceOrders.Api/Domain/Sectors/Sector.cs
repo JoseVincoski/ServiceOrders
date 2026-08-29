@@ -4,6 +4,8 @@ namespace ServiceOrders.Api.Domain.Sectors;
 
 public sealed class Sector
 {
+    public const int MaxNameLength = 100;
+
     private Sector() { }
 
     private Sector(Guid id, string name)

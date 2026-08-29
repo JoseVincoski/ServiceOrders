@@ -5,6 +5,9 @@ namespace ServiceOrders.Api.Domain.Equipments;
 
 public sealed class Equipment
 {
+    public const int MaxNameLength = 150;
+    public const int MaxDescriptionLength = 500;
+
     private Equipment() { }
 
     private Equipment(Guid id, string name, string description, Guid sectorId)

@@ -8,6 +8,6 @@ internal sealed class SectorConfiguration : IEntityTypeConfiguration<Sector>
     public void Configure(EntityTypeBuilder<Sector> builder)
     {
         builder.HasKey(s => s.Id);
-        builder.Property(s => s.Name).HasMaxLength(100).IsRequired();
+        builder.Property(s => s.Name).HasMaxLength(Sector.MaxNameLength).IsRequired();
     }
 }

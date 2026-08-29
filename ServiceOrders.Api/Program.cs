@@ -29,6 +29,8 @@ builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
+builder.Services.AddJwtAuthentication(builder.Configuration);
+
 builder.Services.AddInfrastructureHealthChecks();
 
 var app = builder.Build();
@@ -39,6 +41,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.ApplyMigrations();
 }
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapCarter();
 app.UseExceptionHandler();

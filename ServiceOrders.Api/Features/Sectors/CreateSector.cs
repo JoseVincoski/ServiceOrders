@@ -42,7 +42,7 @@ public static class CreateSector
     {
         public Validator()
         {
-            RuleFor(c => c.Name).NotEmpty().MaximumLength(100);
+            RuleFor(c => c.Name).NotEmpty().MaximumLength(Sector.MaxNameLength);
         }
     }
 

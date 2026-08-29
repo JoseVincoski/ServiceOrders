@@ -41,8 +41,8 @@ public static class CreateEquipment
     {
         public Validator()
         {
-            RuleFor(c => c.Name).NotEmpty().MaximumLength(150);
-            RuleFor(c => c.Description).NotEmpty().MaximumLength(500);
+            RuleFor(c => c.Name).NotEmpty().MaximumLength(Equipment.MaxNameLength);
+            RuleFor(c => c.Description).NotEmpty().MaximumLength(Equipment.MaxDescriptionLength);
             RuleFor(c => c.SectorId).NotEmpty();
         }
     }
