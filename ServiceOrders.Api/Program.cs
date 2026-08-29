@@ -2,9 +2,8 @@ using Carter;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using ServiceOrder.Api.Extensions;
-using ServiceOrders.Api.Database;
 using ServiceOrders.Api.Extensions;
+using ServiceOrders.Api.Database;
 using ServiceOrders.Api.Shared.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);

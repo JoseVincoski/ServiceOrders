@@ -36,13 +36,10 @@ public static class DeleteEquipment
         ApplicationDbContext dbContext,
         CancellationToken cancellationToken)
     {
-        Equipment? equipment = await dbContext.Equipments
-            .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+        Equipment? equipment = await dbContext.Equipments.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         if (equipment is null)
         {
-            return Result.Failure(Error.NotFound(
-                "Equipment.NotFound",
-                $"Equipment with ID {id} was not found."));
+            return Result.Failure(Error.NotFound("Equipment.NotFound", $"Equipment with ID {id} was not found."));
         }//TODO: Add check so I can't delete it if it is ever used in any OS or anything like this.
 
         dbContext.Equipments.Remove(equipment);

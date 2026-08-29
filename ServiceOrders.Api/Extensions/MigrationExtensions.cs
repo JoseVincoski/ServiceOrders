@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServiceOrders.Api.Database;
+using ServiceOrders.Api.Domain;
+using ServiceOrders.Api.Domain.Users;
 
-namespace ServiceOrder.Api.Extensions;
+namespace ServiceOrders.Api.Extensions;
 
 public static class MigrationExtensions
 {
@@ -11,6 +13,30 @@ public static class MigrationExtensions
 
         var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-        dbContext.Database.Migrate();
+        dbContext.Database.MigrateAsync().Wait();
+
+        SeedMasterUser(dbContext);
+    }
+
+    private static void SeedMasterUser(ApplicationDbContext dbContext)
+    {
+        if (dbContext.Set<User>().Any())
+        {
+            return;
+        }
+
+        string masterPasswordHash = BCrypt.Net.BCrypt.HashPassword("Ornitorrinco2000");
+
+        var masterResult = User.Create(
+            "Master Admin",
+            "master@admin.com",
+            masterPasswordHash,
+            UserRole.Master);
+
+        if (masterResult.IsSuccess)
+        {
+            dbContext.Set<User>().Add(masterResult.Value);
+            dbContext.SaveChanges();
+        }
     }
 }

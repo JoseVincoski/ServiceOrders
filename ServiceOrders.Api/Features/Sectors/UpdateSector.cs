@@ -54,9 +54,7 @@ public static class UpdateSector
         Sector? sector = await dbContext.Sectors.FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
         if (sector is null)
         {
-            return Result.Failure<Response>(Error.Problem(
-                "Sector.NotFound",
-                $"Sector with ID {id} was not found."));
+            return Result.Failure<Response>(Error.Problem("Sector.NotFound", $"Sector with ID {id} was not found."));
         }
 
         sector.UpdateName(request.Name);

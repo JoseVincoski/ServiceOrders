@@ -56,9 +56,7 @@ public static class UpdateEquipment
         Equipment? equipment = await dbContext.Equipments.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         if (equipment is null)
         {
-            return Result.Failure<Response>(Error.NotFound(
-                "Equipment.NotFound",
-                $"Equipment with ID {id} was not found."));
+            return Result.Failure<Response>(Error.NotFound("Equipment.NotFound", $"Equipment with ID {id} was not found."));
         }
 
         if (equipment.SectorId != request.SectorId)
@@ -66,9 +64,7 @@ public static class UpdateEquipment
             bool sectorExists = await dbContext.Sectors.AnyAsync(s => s.Id == request.SectorId, cancellationToken);
             if (!sectorExists)
             {
-                return Result.Failure<Response>(Error.NotFound(
-                    "Sector.NotFound",
-                    $"Sector with ID {request.SectorId} was not found."));
+                return Result.Failure<Response>(Error.NotFound("Sector.NotFound", $"Sector with ID {request.SectorId} was not found."));
             }
         }
 

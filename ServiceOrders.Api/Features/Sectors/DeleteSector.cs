@@ -36,22 +36,16 @@ public static class DeleteSector
         ApplicationDbContext dbContext,
         CancellationToken cancellationToken)
     {
-        Sector? sector = await dbContext.Sectors
-            .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
+        Sector? sector = await dbContext.Sectors.FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
         if (sector is null)
         {
-            return Result.Failure(Error.NotFound(
-                "Sector.NotFound",
-                $"Sector with ID {id} was not found."));
+            return Result.Failure(Error.NotFound("Sector.NotFound", $"Sector with ID {id} was not found."));
         }
 
-        bool usedInEquipment = await dbContext.Equipments
-            .AnyAsync(e => e.SectorId == id, cancellationToken);
+        bool usedInEquipment = await dbContext.Equipments.AnyAsync(e => e.SectorId == id, cancellationToken);
         if (usedInEquipment)
         {
-            return Result.Failure(Error.Conflict(
-                "Sector.InUse",
-                $"Sector with ID {id} is in use on at least one equipment. It can not be deleted."));
+            return Result.Failure(Error.Conflict("Sector.InUse", $"Sector with ID {id} is in use on at least one equipment. It can not be deleted."));
         }
 
         dbContext.Sectors.Remove(sector);

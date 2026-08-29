@@ -7,6 +7,7 @@ public sealed class User
     public const int MaxNameLength = 100;
     public const int MaxEmailLength = 200;
     public const int MaxPasswordHashLength = 500;
+    public const int MinPasswordLength = 6;
 
     private User() { }
 
@@ -37,6 +38,22 @@ public sealed class User
             return Result.Failure<User>(Error.Problem("User.InvalidEmail", "A valid email is required."));
         }
 
+        if (string.IsNullOrWhiteSpace(passwordHash) || passwordHash.Length < MinPasswordLength)
+        {
+            return Result.Failure<User>(Error.Problem("User.InvalidPassword", $"Password must be at least {MinPasswordLength} characters long."));
+        }
+
         return new User(Guid.NewGuid(), name.Trim(), email.Trim().ToLowerInvariant(), passwordHash, role);
+    }
+
+    public Result PromoteTo(UserRole newRole)
+    {
+        if (Role == newRole)
+        {
+            return Result.Failure(Error.Problem("User.RoleAlreadyAssigned", $"User is already a {newRole}."));
+        }
+
+        Role = newRole;
+        return Result.Success();
     }
 }

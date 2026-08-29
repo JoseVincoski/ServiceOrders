@@ -12,7 +12,7 @@ using ServiceOrders.Api.Database;
 namespace ServiceOrders.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260826033219_InitialCreate")]
+    [Migration("20260829231524_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -69,7 +69,7 @@ namespace ServiceOrders.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Item");
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("ServiceOrders.Api.Domain.Sectors.Sector", b =>
@@ -164,13 +164,13 @@ namespace ServiceOrders.Api.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(180)
-                        .HasColumnType("character varying(180)");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -185,7 +185,7 @@ namespace ServiceOrders.Api.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ServiceOrders.Api.Domain.Equipments.Equipment", b =>

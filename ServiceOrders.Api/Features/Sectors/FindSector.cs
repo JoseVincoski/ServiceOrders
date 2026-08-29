@@ -43,9 +43,7 @@ public static class FindSector
         Sector? sector = await dbContext.Sectors.FirstOrDefaultAsync(s => s.Id == sectorId, cancellationToken);
         if (sector is null)
         {
-            return Result.Failure<Response>(Error.NotFound(
-                "Sector.NotFound",
-                $"Sector with ID {sectorId} was not found."));
+            return Result.Failure<Response>(Error.NotFound("Sector.NotFound", $"Sector with ID {sectorId} was not found."));
         }
 
         var response = new Response(

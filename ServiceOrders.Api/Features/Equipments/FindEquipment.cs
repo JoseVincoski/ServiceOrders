@@ -42,9 +42,7 @@ public static class FindEquipment
         Equipment? equipment = await dbContext.Equipments.FirstOrDefaultAsync(e => e.Id == equipmentId, cancellationToken);
         if (equipment is null)
         {
-            return Result.Failure<Response>(Error.NotFound(
-                "Equipment.NotFound",
-                $"Equipment with ID {equipmentId} was not found."));
+            return Result.Failure<Response>(Error.NotFound("Equipment.NotFound", $"Equipment with ID {equipmentId} was not found."));
         }
 
         var response = new Response(

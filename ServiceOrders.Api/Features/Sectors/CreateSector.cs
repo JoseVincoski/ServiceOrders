@@ -54,9 +54,7 @@ public static class CreateSector
         bool sectorExists = await dbContext.Sectors.AnyAsync(s => s.Name == request.Name, cancellationToken);
         if (sectorExists)
         {
-            return Result.Failure<Response>(Error.Problem(
-                "Sector.AlreadyExists",
-                $"Sector with Name {request.Name} already exists."));
+            return Result.Failure<Response>(Error.Problem("Sector.AlreadyExists", $"Sector with Name {request.Name} already exists."));
         }
 
         Result<Sector> sectorResult = Sector.Create(request.Name);

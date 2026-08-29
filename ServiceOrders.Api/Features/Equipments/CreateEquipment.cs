@@ -55,9 +55,7 @@ public static class CreateEquipment
         bool sectorExists = await dbContext.Sectors.AnyAsync(s => s.Id == request.SectorId, cancellationToken);
         if (!sectorExists)
         {
-            return Result.Failure<Response>(Error.NotFound(
-                "Sector.NotFound",
-                $"Sector with ID {request.SectorId} was not found."));
+            return Result.Failure<Response>(Error.NotFound("Sector.NotFound", $"Sector with ID {request.SectorId} was not found."));
         }
 
         Result<Equipment> equipmentResult = Equipment.Create(

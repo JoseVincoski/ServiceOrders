@@ -12,7 +12,7 @@ namespace ServiceOrders.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Item",
+                name: "Items",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -21,7 +21,7 @@ namespace ServiceOrders.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Item", x => x.Id);
+                    table.PrimaryKey("PK_Items", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -37,18 +37,18 @@ namespace ServiceOrders.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
-                    Email = table.Column<string>(type: "character varying(180)", maxLength: 180, nullable: false),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Email = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     PasswordHash = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     Role = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -95,15 +95,15 @@ namespace ServiceOrders.Api.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ServiceOrders_User_RequestorUserId",
+                        name: "FK_ServiceOrders_Users_RequestorUserId",
                         column: x => x.RequestorUserId,
-                        principalTable: "User",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ServiceOrders_User_WorkerUserId",
+                        name: "FK_ServiceOrders_Users_WorkerUserId",
                         column: x => x.WorkerUserId,
-                        principalTable: "User",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -121,9 +121,9 @@ namespace ServiceOrders.Api.Migrations
                 {
                     table.PrimaryKey("PK_ServiceOrderItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ServiceOrderItems_Item_ItemId",
+                        name: "FK_ServiceOrderItems_Items_ItemId",
                         column: x => x.ItemId,
-                        principalTable: "Item",
+                        principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -165,8 +165,8 @@ namespace ServiceOrders.Api.Migrations
                 column: "WorkerUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_Email",
-                table: "User",
+                name: "IX_Users_Email",
+                table: "Users",
                 column: "Email",
                 unique: true);
         }
@@ -178,7 +178,7 @@ namespace ServiceOrders.Api.Migrations
                 name: "ServiceOrderItems");
 
             migrationBuilder.DropTable(
-                name: "Item");
+                name: "Items");
 
             migrationBuilder.DropTable(
                 name: "ServiceOrders");
@@ -187,7 +187,7 @@ namespace ServiceOrders.Api.Migrations
                 name: "Equipments");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Sectors");
