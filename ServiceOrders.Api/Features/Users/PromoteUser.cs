@@ -29,6 +29,7 @@ public class PromoteUserEndpoint : ICarterModule
             );
         })
         .WithName("PromoteUser")
+        .WithSummary("Promotes user access")
         .WithTags(EndpointTags.User)
         .WithValidation<PromoteUser.Request>()
         .RequireAuthorization(policy => policy.RequireRole(UserRole.Master.ToString()))

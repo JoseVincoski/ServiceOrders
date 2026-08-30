@@ -58,12 +58,12 @@ public sealed class Equipment
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            return Result.Failure<Equipment>(Error.Problem("Equipment.InvalidName", "The equipment name cannot be empty."));
+            return Result.Failure<Equipment>(Error.Validation("Equipment.InvalidName", "The equipment name cannot be empty."));
         }
 
         if (sectorId == Guid.Empty)
         {
-            return Result.Failure<Equipment>(Error.Problem("Equipment.EmptySectorId", "The sector ID cannot be empty."));
+            return Result.Failure<Equipment>(Error.Validation("Equipment.EmptySectorId", "The sector ID cannot be empty."));
         }
 
         return Result.Success();

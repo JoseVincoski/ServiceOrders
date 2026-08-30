@@ -26,6 +26,7 @@ public class FindSectorEndpoint : ICarterModule
             );
         })
         .WithName("FindSector")
+        .WithSummary("Retrieves one sector by Id")
         .WithTags(EndpointTags.Sector)
         .WithOpenApi();
     }

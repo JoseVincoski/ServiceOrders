@@ -23,6 +23,7 @@ public class FindAllEquipmentsEndpoint : ICarterModule
             );
         })
         .WithName("FindAllEquipments")
+        .WithSummary("Retrieves a list of all equipments")
         .WithTags(EndpointTags.Equipment)
         .WithOpenApi();
     }

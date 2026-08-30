@@ -28,6 +28,7 @@ public class RegisterUserEndpoint : ICarterModule
             );
         })
         .WithName("RegisterUser")
+        .WithSummary("Registers a new user as a Requester")
         .WithTags(EndpointTags.User)
         .WithValidation<RegisterUser.Request>()
         .WithOpenApi();

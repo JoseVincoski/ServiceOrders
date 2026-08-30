@@ -12,7 +12,7 @@ using ServiceOrders.Api.Database;
 namespace ServiceOrders.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260829231524_InitialCreate")]
+    [Migration("20260830030247_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -70,6 +70,32 @@ namespace ServiceOrders.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("ServiceOrders.Api.Domain.Items.PurchaseItem.PurchaseItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("PurchasedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("numeric(18,4)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("PurchaseItems", (string)null);
                 });
 
             modelBuilder.Entity("ServiceOrders.Api.Domain.Sectors.Sector", b =>
@@ -197,6 +223,17 @@ namespace ServiceOrders.Api.Migrations
                         .IsRequired();
 
                     b.Navigation("Sector");
+                });
+
+            modelBuilder.Entity("ServiceOrders.Api.Domain.Items.PurchaseItem.PurchaseItem", b =>
+                {
+                    b.HasOne("ServiceOrders.Api.Domain.Items.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Item");
                 });
 
             modelBuilder.Entity("ServiceOrders.Api.Domain.ServiceOrders.ServiceOrder", b =>

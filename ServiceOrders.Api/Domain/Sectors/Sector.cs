@@ -44,7 +44,7 @@ public sealed class Sector
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            return Result.Failure<Sector>(Error.Problem("Sector.InvalidName", "The sector name cannot be empty."));
+            return Result.Failure<Sector>(Error.Validation("Sector.InvalidName", "The sector name cannot be empty."));
         }
 
         return Result.Success();

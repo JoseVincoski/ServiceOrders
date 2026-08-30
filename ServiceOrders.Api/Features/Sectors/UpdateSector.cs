@@ -27,6 +27,7 @@ public class UpdateSectorEndpoint : ICarterModule
             );
         })
         .WithName("UpdateSector")
+        .WithSummary("Updates sector information")
         .WithTags("Sector")
         .WithValidation<UpdateSector.Request>()
         .WithOpenApi();

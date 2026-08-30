@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServiceOrders.Api.Database;
 using ServiceOrders.Api.Domain.Equipments;
+using ServiceOrders.Api.Shared;
 using ServiceOrders.Api.Shared.Results;
 
 namespace ServiceOrders.Api.Features.Equipments;
@@ -24,7 +25,8 @@ public class DeleteEquipmentEndpoint : ICarterModule
             );
         })
         .WithName("DeleteEquipment")
-        .WithTags("Equipment")
+        .WithSummary("Deletes an equipment via Id")
+        .WithTags(EndpointTags.Equipment)
         .WithOpenApi();
     }
 }

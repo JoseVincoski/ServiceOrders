@@ -52,6 +52,27 @@ namespace ServiceOrders.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PurchaseItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ItemId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "numeric(18,4)", precision: 18, scale: 4, nullable: false),
+                    PurchasedAtUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PurchaseItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PurchaseItems_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Equipments",
                 columns: table => new
                 {
@@ -140,6 +161,11 @@ namespace ServiceOrders.Api.Migrations
                 column: "SectorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PurchaseItems_ItemId",
+                table: "PurchaseItems",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ServiceOrderItems_ItemId",
                 table: "ServiceOrderItems",
                 column: "ItemId");
@@ -174,6 +200,9 @@ namespace ServiceOrders.Api.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "PurchaseItems");
+
             migrationBuilder.DropTable(
                 name: "ServiceOrderItems");
 

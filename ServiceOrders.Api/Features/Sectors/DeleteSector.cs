@@ -24,6 +24,7 @@ public class DeleteSectorEndpoint : ICarterModule
             );
         })
         .WithName("DeleteSector")
+        .WithSummary("Deletes a sector via Id")
         .WithTags("Sector")
         .WithOpenApi();
     }

@@ -27,6 +27,7 @@ public class CreateEquipmentEndpoint : ICarterModule
             );
         })
         .WithName("CreateEquipment")
+        .WithSummary("Creates a new equipment")
         .WithTags(EndpointTags.Equipment)
         .WithValidation<CreateEquipment.Request>()
         .WithOpenApi();

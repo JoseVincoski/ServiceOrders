@@ -26,6 +26,7 @@ public class DeleteItemEndpoint : ICarterModule
             );
         })
         .WithName("DeleteItem")
+        .WithSummary("Deletes an item via Id")
         .WithTags(EndpointTags.Item)
         .RequireAuthorization(policy => policy.RequireRole(UserRole.Master.ToString()))
         .WithOpenApi();

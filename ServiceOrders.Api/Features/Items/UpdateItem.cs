@@ -29,6 +29,7 @@ public class UpdateItemEndpoint : ICarterModule
             );
         })
         .WithName("UpdateItem")
+        .WithSummary("Updates item information")
         .WithTags(EndpointTags.Item)
         .WithValidation<UpdateItem.Request>()
         .RequireAuthorization(policy => policy.RequireRole(UserRole.Master.ToString()))

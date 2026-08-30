@@ -110,17 +110,17 @@ public sealed class ServiceOrder
     {
         if (equipmentId == Guid.Empty)
         {
-            return Result.Failure<ServiceOrder>(Error.Problem("ServiceOrder.EmptyEquipment", "Equipment is required."));
+            return Result.Failure<ServiceOrder>(Error.Validation("ServiceOrder.EmptyEquipment", "Equipment is required."));
         }
 
         if (requestorUserId == Guid.Empty)
         {
-            return Result.Failure<ServiceOrder>(Error.Problem("ServiceOrder.EmptyRequestor", "Requestor user is required."));
+            return Result.Failure<ServiceOrder>(Error.Validation("ServiceOrder.EmptyRequestor", "Requestor user is required."));
         }
 
         if (string.IsNullOrWhiteSpace(failureDescription))
         {
-            return Result.Failure<ServiceOrder>(Error.Problem("ServiceOrder.EmptyDescription", "Failure description cannot be empty."));
+            return Result.Failure<ServiceOrder>(Error.Validation("ServiceOrder.EmptyDescription", "Failure description cannot be empty."));
         }
 
         return Result.Success();

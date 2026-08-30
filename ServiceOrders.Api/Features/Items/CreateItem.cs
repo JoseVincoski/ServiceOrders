@@ -28,6 +28,7 @@ public class CreateItemEndpoint : ICarterModule
             );
         })
         .WithName("CreateItem")
+        .WithSummary("Creates a new item")
         .WithTags(EndpointTags.Item)
         .WithValidation<CreateItem.Request>()
         .RequireAuthorization(policy => policy.RequireRole(UserRole.Master.ToString()))

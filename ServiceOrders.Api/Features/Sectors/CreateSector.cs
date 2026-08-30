@@ -27,6 +27,7 @@ public class CreateSectorEndpoint : ICarterModule
             );
         })
         .WithName("CreateSector")
+        .WithSummary("Creates a new sector")
         .WithTags(EndpointTags.Sector)
         .WithValidation<CreateSector.Request>()
         .WithOpenApi();

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using ServiceOrders.Api.Database;
 using ServiceOrders.Api.Domain.Equipments;
 using ServiceOrders.Api.Extensions;
+using ServiceOrders.Api.Shared;
 using ServiceOrders.Api.Shared.Results;
 
 namespace ServiceOrders.Api.Features.Equipments;
@@ -27,7 +28,8 @@ public class UpdateEquipmentEndpoint : ICarterModule
             );
         })
         .WithName("UpdateEquipment")
-        .WithTags("Equipment")
+        .WithSummary("Updates equipment information")
+        .WithTags(EndpointTags.Equipment)
         .WithValidation<UpdateEquipment.Request>()
         .WithOpenApi();
     }

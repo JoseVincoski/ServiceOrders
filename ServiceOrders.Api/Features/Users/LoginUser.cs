@@ -33,6 +33,7 @@ public class LoginUserEndpoint : ICarterModule
             );
         })
         .WithName("LoginUser")
+        .WithSummary("Gets bearer token based on email and password")
         .WithTags(EndpointTags.User)
         .WithValidation<LoginUser.Request>()
         .WithOpenApi();

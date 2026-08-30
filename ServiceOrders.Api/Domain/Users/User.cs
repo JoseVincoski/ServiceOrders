@@ -56,12 +56,12 @@ public sealed class User
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            return Result.Failure<User>(Error.Problem("User.EmptyName", "Name cannot be empty."));
+            return Result.Failure<User>(Error.Validation("User.EmptyName", "Name cannot be empty."));
         }
 
         if (string.IsNullOrWhiteSpace(email) || !email.Contains('@'))
         {
-            return Result.Failure<User>(Error.Problem("User.InvalidEmail", "A valid email is required."));
+            return Result.Failure<User>(Error.Validation("User.InvalidEmail", "A valid email is required."));
         }
 
         return Result.Success();

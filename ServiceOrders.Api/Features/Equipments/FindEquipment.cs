@@ -25,6 +25,7 @@ public class FindEquipmentEndpoint : ICarterModule
             );
         })
         .WithName("FindEquipment")
+        .WithSummary("Retrieves one equipment by Id")
         .WithTags(EndpointTags.Equipment)
         .WithOpenApi();
     }

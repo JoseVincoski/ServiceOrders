@@ -23,6 +23,7 @@ public class FindAllSectorsEndpoint : ICarterModule
             );
         })
         .WithName("FindAllSectors")
+        .WithSummary("Retrieves a list of all sectors")
         .WithTags(EndpointTags.Sector)
         .WithOpenApi();
     }
